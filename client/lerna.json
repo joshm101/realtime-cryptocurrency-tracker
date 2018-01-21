@@ -1,8 +1,10 @@
 {
   "lerna": "2.5.1",
   "packages": [
+    "src",
     "src/packages/*",
-    "src/packages/services/*"
+    "src/packages/services/*",
+    "src/packages/reducers/*"
   ],
   "version": "0.0.0"
 }
