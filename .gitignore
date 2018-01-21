@@ -2,8 +2,10 @@
 
 # dependencies
 client/node_modules
-client/packages/**/lib
 server/node_modules
+
+#lerna package output
+/client/**/lib
 
 # production
 client/build
