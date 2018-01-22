@@ -4,7 +4,8 @@
     "src",
     "src/packages/*",
     "src/packages/services/*",
-    "src/packages/reducers/*"
+    "src/packages/reducers/*",
+    "src/packages/actions/*"
   ],
   "version": "0.0.0"
 }
