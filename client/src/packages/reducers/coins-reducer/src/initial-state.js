@@ -8,13 +8,15 @@
 import Immutable from 'immutable';
 
 const createInitialState = () => Immutable.fromJS({
-  // UUID key: value lookup Map. Each entry maps a
-  // UUID key to a coin/cryptocurrency.
-  byId: {},
-  
-  // UUID string sort array. Dictates sort order of
-  // coins/cryptocurrencies in byId Map
-  sortOrder: [],
+  coins: {
+    // UUID key: value lookup Map. Each entry maps a
+    // UUID key to a coin/cryptocurrency.
+    byId: {},
+    
+    // UUID string sort array. Dictates sort order of
+    // coins/cryptocurrencies in byId Map
+    sortOrder: []
+  },
 
   // flag indicating whether the application is currently
   // fetching list of coins
