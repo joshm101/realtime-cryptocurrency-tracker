@@ -8,6 +8,9 @@ server/node_modules
 /client/**/lib
 /client/**/node_modules
 
+#lerna error
+/client/**/lerna-debug.log
+
 # production
 client/build
 
