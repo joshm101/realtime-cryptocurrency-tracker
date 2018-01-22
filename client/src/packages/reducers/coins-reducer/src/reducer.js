@@ -12,36 +12,36 @@ const initialState = createInitialState();
 
 const coinsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.GET_COINS_LIST:
-      return handleGetCoinsList(state, action);
-    case actionTypes.GET_COINS_LIST_SUCCESS:
-      return handleGetCoinsListSuccess(state, action);
-    case actionTypes.GET_COINS_LIST_ERROR:
-      return handleGetCoinsListError(state, action);
+    case actionTypes.GET_COIN_LIST:
+      return handleGetCoinList(state, action);
+    case actionTypes.GET_COIN_LIST_SUCCESS:
+      return handleGetCoinListSuccess(state, action);
+    case actionTypes.GET_COIN_LIST_ERROR:
+      return handleGetCoinListError(state, action);
     default:
       return state;
   }
 };
 
 /**
- * Handles GET_COINS_LIST action.
+ * Handles GET_COIN_LIST action.
  * Sets the fetchingCoins state flag to true.
  * @param {Map} state Current coins reducer state slice
- * @param {any} action GET_COINS_LIST action object
+ * @param {any} action GET_COIN_LIST action object
  * @return {Map} Updated state
  */
-const handleGetCoinsList = (state, action) => {
+const handleGetCoinList = (state, action) => {
   return state.set('fetchingCoins', true);
 };
 
 /**
- * Handles GET_COINS_LIST_SUCCESS action
+ * Handles GET_COIN_LIST_SUCCESS action
  * Sets the byId
  * @param {Map} state Current coins reducer state slice 
- * @param {any} action GET_COINS_LIST_SUCCESS action object
+ * @param {any} action GET_COIN_LIST_SUCCESS action object
  * @return {Map} Updated state 
  */
-const handleGetCoinsListSuccess = (state, action) => {
+const handleGetCoinListSuccess = (state, action) => {
   // retrieve coins from action payload
   const { coins } = action.payload;
 
@@ -79,7 +79,7 @@ const handleGetCoinsListSuccess = (state, action) => {
   );
 }
 
-const handleGetCoinsListError = (state, action) => {
+const handleGetCoinListError = (state, action) => {
   return state.set('fetchingCoins', false);
 }
 

@@ -2,6 +2,6 @@
  * Coins action types
  */
 
-export const GET_COINS_LIST = 'GET_COINS_LIST';
-export const GET_COINS_LIST_SUCCESS = 'GET_COINS_LIST_SUCCESS';
-export const GET_COINS_LIST_ERROR = 'GET_COINS_LIST_ERROR';
+export const GET_COIN_LIST = 'GET_COIN_LIST';
+export const GET_COIN_LIST_SUCCESS = 'GET_COIN_LIST_SUCCESS';
+export const GET_COIN_LIST_ERROR = 'GET_COIN_LIST_ERROR';

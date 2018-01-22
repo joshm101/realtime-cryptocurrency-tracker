@@ -20,7 +20,7 @@ test('return the initial state', () => {
 test('handle GET_COINS_LIST action', () => {
   const state = reducer(
     createInitialState(), 
-    actions.getCoinsList()
+    actions.getCoinList()
   );
   expect(
     state.get('fetchingCoins')
@@ -41,7 +41,7 @@ test('handle GET_COINS_LIST_SUCCESS action', () => {
 
   const state = reducer(
     createInitialState(),
-    actions.getCoinsListSuccess(coins)
+    actions.getCoinListSuccess(coins)
   );
 
   // Expect sortOrder to be a List
@@ -96,14 +96,14 @@ test('handle GET_COINS_LIST_ERROR action', () => {
   // dispatched
   const initialState = reducer(
     createInitialState(),
-    actions.getCoinsList()
+    actions.getCoinList()
   );
 
   // create resulting state by having reducer
   // process GET_COINS_LIST_ERROR action
   const state = reducer(
     initialState,
-    actions.getCoinsListError('Error')
+    actions.getCoinListError('Error')
   );
 
   expect(

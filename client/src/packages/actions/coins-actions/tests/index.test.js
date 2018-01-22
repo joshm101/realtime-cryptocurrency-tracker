@@ -9,27 +9,27 @@ test('action objects should be properly created', () => {
   const error = 'An error occurred while fetching coins list.';
   
   expect(
-    actions.getCoinsList()
+    actions.getCoinList()
   ).toMatchObject(
     {
-      type: actionTypes.GET_COINS_LIST
+      type: actionTypes.GET_COIN_LIST
     }
   );
   expect(
-    actions.getCoinsListSuccess(coins)
+    actions.getCoinListSuccess(coins)
   ).toMatchObject(
     {
-      type: actionTypes.GET_COINS_LIST_SUCCESS,
+      type: actionTypes.GET_COIN_LIST_SUCCESS,
       payload: {
         coins
       }
     }
   );
   expect(
-    actions.getCoinsListError(error)
+    actions.getCoinListError(error)
   ).toMatchObject(
     {
-      type: actionTypes.GET_COINS_LIST_ERROR,
+      type: actionTypes.GET_COIN_LIST_ERROR,
       payload: expect.any(Error)
     }
   );

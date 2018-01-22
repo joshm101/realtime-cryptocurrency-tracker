@@ -4,24 +4,24 @@
 
 import * as actionTypes from './action-types';
 
-export const getCoinsList = () => {
+export const getCoinList = () => {
   return {
-    type: actionTypes.GET_COINS_LIST
+    type: actionTypes.GET_COIN_LIST
   };
 };
 
-export const getCoinsListSuccess = (coins) => {
+export const getCoinListSuccess = (coins) => {
   return {
-    type: actionTypes.GET_COINS_LIST_SUCCESS,
+    type: actionTypes.GET_COIN_LIST_SUCCESS,
     payload: {
       coins
     }
   };
 };
 
-export const getCoinsListError = (error) => {
+export const getCoinListError = (error) => {
   return {
-    type: actionTypes.GET_COINS_LIST_ERROR,
+    type: actionTypes.GET_COIN_LIST_ERROR,
     payload: new Error(error)
   };
 };
