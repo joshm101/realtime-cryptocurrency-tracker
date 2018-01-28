@@ -1,0 +1,15 @@
+{
+  "name": "coins-reducer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "babel src --out-dir lib"
+  },
+  "dependencies": {
+    "coins-actions": "1.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

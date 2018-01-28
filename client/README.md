@@ -1,3 +1,55 @@
+Prerequisites (assuming [Node.js](https://nodejs.org/) is installed)
+-------------
+- [lerna](https://github.com/lerna/lerna) `npm install -g lerna`
+- [babel-cli](https://www.npmjs.com/package/babel-cli) `npm install -g babel-cli`
+
+Build the project:
+--------
+- `lerna clean --yes` Removes any previous `lerna bootstrap` output files
+- `lerna bootstrap` Builds all of the project's packages & transpiles to ES5
+
+Run the project:
+--------
+- `npm start` Runs the project and opens a browser window/tab at `127.0.0.1:3000`. Listens for changes and Create React App recompiles automatically (`lerna` does not, that's manual)
+
+Build a single package in the project:
+--------
+- `lerna bootstrap --scope [package-name]` Builds the package called `package-name`. Much faster than building the entire project when there are lots of packages.
+
+*Any changes in a package's source code will not be reflected until rebuilt. (Either using `lerna bootstrap` or `lerna bootstrap --scope [package-name]`)*
+
+Misc.
+--------
+*The benefit of `lerna` is that you can import a package using its package name instead of specifying the path to it within the project. In order to use `import packageExport from 'package-name'`, the `package-name` must be listed as a dependency in the importing package's list of `dependencies` within its `package.json` file*
+
+Example:
+```
+{
+  "name": "src",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "api-service": "1.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
+```
+Now, the `index.js` file in `src/index.js` can import `ApiService` which is found in the `api-service` package like so: `import ApiService from 'api-service';`
+
+Lerna package:
+----------
+![Package structure](https://i.imgur.com/koRhdI2.png)
+- `/lib` is output of `lerna bootstrap` command
+- `/src` is where the package's source code belongs
+- `/tests` is where the package's tests belong. This directory is not (and doesn't need to be) processed by `lerna`. [Jest](https://facebook.github.io/jest/) is the testing framework being used.
+- `.babelrc` specifies which transformations to apply. Essentially what to transform to ES5 when `babel` is run (a part of the `lerna bootstrap` process).
+- `package.json` the lerna package's package.json. Example given above.
+----------
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
