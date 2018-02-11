@@ -7,7 +7,8 @@
     "src/packages/reducers/*",
     "src/packages/actions/*",
     "src/packages/sagas/*",
-    "src/packages/components/*"
+    "src/packages/components/*",
+    "src/packages/models/*"
   ],
   "version": "0.0.0"
 }
