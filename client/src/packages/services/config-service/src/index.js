@@ -22,6 +22,10 @@ class ConfigService {
   get coinListUrl() {
     return 'https://min-api.cryptocompare.com/data/all/coinlist';
   }
+
+  get cryptoCompareSocketUrl() {
+    return 'wss://streamer.cryptocompare.com/';
+  }
 }
 
 export default ConfigService;
