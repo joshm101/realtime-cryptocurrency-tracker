@@ -9,7 +9,8 @@
     "src/packages/sagas/*",
     "src/packages/components/*",
     "src/packages/factories/*",
-    "src/packages/enums/*"
+    "src/packages/enums/*",
+    "src/packages/utilities/*"
   ],
   "version": "0.0.0"
 }
