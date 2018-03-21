@@ -26,7 +26,7 @@ class CryptoCompareSocketConnectionService {
       // Generated ID key to WebSocket connection
       // value
       this.socketConnections = {};
-
+      
       this.socketStringFactory = new CryptoCompareSocketConnectionStringFactory();
       const configService = new ConfigService();
       this.socketUrl = configService.cryptoCompareSocketUrl;
