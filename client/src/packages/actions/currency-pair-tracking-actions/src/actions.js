@@ -75,9 +75,12 @@ export const openCurrencyPairTrackingConnectionError = (error) => ({
 
 /** 
  * Creates a RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE action object
+ * @param {object} data - New data from CryptoCompare API for a
+ * given currency pair
  * @return {object} - RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE
  * action object 
  */
-export const receivedCurrencyPairTrackingMessage = () => ({
+export const receivedCurrencyPairTrackingMessage = (data) => ({
   type: actionTypes.RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE,
+  data,
 });
