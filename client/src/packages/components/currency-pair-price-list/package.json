@@ -1,0 +1,16 @@
+{
+  "name": "currency-pair-price-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "babel src --out-dir lib"
+  },
+  "dependencies": {
+    "currency-pair-price": "1.0.0",
+    "to-js": "1.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
