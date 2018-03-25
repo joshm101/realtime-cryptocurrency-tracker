@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "currency-pair-tracking-actions": "1.0.0",
-    "cc-socket-connection-service": "1.0.0"
+    "currency-pair-actions": "1.0.0",
+    "cc-socket-connection-service": "1.0.0",
+    "currency-pair-service": "1.0.0",
+    "ccc-streamer-utilities": "1.0.0"
   },
   "author": "",
   "license": "ISC"

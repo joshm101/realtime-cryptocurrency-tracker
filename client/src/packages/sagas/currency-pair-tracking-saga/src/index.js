@@ -8,8 +8,13 @@ import { take, takeEvery, put, all } from 'redux-saga/effects';
 import { v4 } from 'uuid';
 
 import { actions, actionTypes } from 'currency-pair-tracking-actions';
+import { actions as currentAverageActions } from 'currency-pair-actions';
 import createCurrencyPairTrackingEventChannel
-from './factories/currency-pair-tracking-event-channel';
+  from './factories/currency-pair-tracking-event-channel';
+import CurrencyPairService from 'currency-pair-service';
+import CCC from 'ccc-streamer-utilities';
+
+const currencyPairService = new CurrencyPairService();
 
 /** 
  * { 
@@ -54,11 +59,19 @@ function* currencyPairSocketResponseHandler(action) {
           connectionPairs,
         })
       );
+      break;
     case 'NEW_DATA':
-      // TODO: data parsing
+      const { message } = action;
+      const response = CCC.CURRENT.unpack(message);
+      if (response.TYPE === '3') {
+        break;
+      }
       yield put(
-        actions.receivedCurrencyPairTrackingMessage(action)
+        actions.receivedCurrencyPairTrackingMessage(response)
       );
+      break;
+    default:
+      break;
   }
 }
 
@@ -73,6 +86,20 @@ function* openCurrencyPairTrackingConnectionHandler(action) {
     const { connectionPairs } = action;
     const connectionChannel = createCurrencyPairTrackingEventChannel(
       connectionPairs
+    );
+    const initialAverageDataArray = yield all(
+      connectionPairs.map(connectionPair =>
+        currencyPairService.getCurrentAverage(
+          connectionPair.fromSymbol,
+          connectionPair.toSymbol
+        )
+      )
+    );
+
+    yield put(
+      currentAverageActions.getCurrentAverageSetSuccess(
+        initialAverageDataArray
+      )
     );
 
     while (true) {
