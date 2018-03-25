@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "currency-pair-price": "1.0.0",
+    "cc-socket-connection-enum": "1.0.0",
+    "currency-pair-tracking-actions": "1.0.0",
     "to-js": "1.0.0"
   },
   "author": "",

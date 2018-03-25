@@ -1,8 +1,47 @@
 import React from 'react';
 
 import CurrencyPairPrice from 'currency-pair-price';
-
+import CryptoCompareSocketConnectionEnum 
+  from 'cc-socket-connection-enum';
+  
 class CurrencyPairPriceList extends React.Component {
+  componentDidMount() {
+    this.props.startCurrencyPairTracking([
+      {
+        connectionTypeId: CryptoCompareSocketConnectionEnum.CURRENTAGG,
+        fromSymbol: 'BTC',
+        toSymbol: 'USD',
+      },
+      {
+        connectionTypeId: CryptoCompareSocketConnectionEnum.CURRENTAGG,
+        fromSymbol: 'ETH',
+        toSymbol: 'USD',
+      },
+      {
+        connectionTypeId: CryptoCompareSocketConnectionEnum.CURRENTAGG,
+        fromSymbol: 'ICX',
+        toSymbol: 'ETH',
+      },
+    ]);
+    this.props.startCurrencyPairTracking([
+      {
+        connectionTypeId: CryptoCompareSocketConnectionEnum.CURRENTAGG,
+        fromSymbol: 'XRB',
+        toSymbol: 'ETH',
+      },
+      {
+        connectionTypeId: CryptoCompareSocketConnectionEnum.CURRENTAGG,
+        fromSymbol: 'LTC',
+        toSymbol: 'USD',
+      },
+      {
+        connectionTypeId: CryptoCompareSocketConnectionEnum.CURRENTAGG,
+        fromSymbol: 'ITC',
+        toSymbol: 'ETH',
+      },
+    ]);
+  }
+
   render() {
     const trackedPairsArray = Object.values(
       this.props.trackedPairs || []
