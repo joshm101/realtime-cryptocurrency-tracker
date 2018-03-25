@@ -7,6 +7,7 @@ import './App.css';
 import rootReducer from './reducer';
 import rootSaga from './sagas';
 import CoinListContainer from 'coin-list-container';
+import CurrencyPairPriceList from 'currency-pair-price-list';
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -27,11 +28,11 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Welcome to React</h1>
           </header>
-          <p className="App-intro">
-            To get started, edit <code>src/App.js</code> and save to reload.
-          </p>
-          <CoinListContainer />
-        </div>      
+          <div className="page-content-container">
+            <CurrencyPairPriceList />
+            <CoinListContainer />
+          </div>
+        </div>
       </Provider>
     );
   }

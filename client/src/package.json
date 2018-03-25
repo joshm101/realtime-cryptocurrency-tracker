@@ -15,7 +15,8 @@
     "config-service": "1.0.0",
     "mock-data-service": "1.0.0",
     "currency-pair-price": "1.0.0",
-    "currency-pair-reducer": "1.0.0"
+    "currency-pair-reducer": "1.0.0",
+    "currency-pair-price-list": "1.0.0"
   },
   "author": "",
   "license": "ISC"
