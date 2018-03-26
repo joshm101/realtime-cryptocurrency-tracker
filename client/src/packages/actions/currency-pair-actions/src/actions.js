@@ -1,4 +1,4 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from './action-types';
 
 export const getCurrentAverage = (fromSymbol, toSymbol) => ({
   type: actionTypes.GET_CURRENT_AVERAGE,
