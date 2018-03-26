@@ -1,0 +1,19 @@
+{
+  "name": "currency-pair-tracking-saga",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "babel src --out-dir lib"
+  },
+  "dependencies": {
+    "currency-pair-tracking-actions": "1.0.0",
+    "currency-pair-actions": "1.0.0",
+    "cc-socket-connection-service": "1.0.0",
+    "currency-pair-service": "1.0.0",
+    "ccc-streamer-utilities": "1.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
