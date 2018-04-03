@@ -8,8 +8,22 @@ body {
   padding: 50px;
 }
 
+/* currency-pair-price */
+.cpp-trade-info-container {
+  text-align: right;
+  display: grid;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* currency-pair-price */
+
+
+/* currency-pair-price-list */
 .currency-pair-list-container {
   display: grid;
   grid-gap: 50px 100px;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
+  justify-content: center;
 }
+/* currency-pair-price-list */

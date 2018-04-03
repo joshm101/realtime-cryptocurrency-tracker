@@ -22,19 +22,17 @@ class CurrencyPairPrice extends React.Component {
       volume24h,
       currencySymbol
     } = this.props;
-
+  
     return (
       <div>
-        <div>
-          <h2>
-            {fromSymbol || 'ETH'} / {toSymbol || 'USD'}
-          </h2>
-          <UpdatedPrice 
-            price={currentPrice}
-            toCurrencySymbol={toCurrencySymbol}
-          />
-        </div>
-        <div style={{ textAlign: 'right' }}>
+        <h2>
+          {fromSymbol || 'ETH'} / {toSymbol || 'USD'}
+        </h2>
+        <UpdatedPrice 
+          price={currentPrice}
+          toCurrencySymbol={toCurrencySymbol}
+        />
+        <div className="cpp-trade-info-container">
           <TradeInfo
             fromCurrencySymbol={fromCurrencySymbol}
             toCurrencySymbol={toCurrencySymbol}
