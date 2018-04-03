@@ -23,15 +23,11 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="App">
-          <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h1 className="App-title">Welcome to React</h1>
-          </header>
-          <div className="page-content-container">
+        <div className="page-content-container">
+          <div className="currency-pair-price-list">
             <CurrencyPairPriceList />
-            <CoinListContainer />
           </div>
+          <CoinListContainer />
         </div>
       </Provider>
     );
