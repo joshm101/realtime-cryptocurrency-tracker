@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card, CardContent } from 'material-ui';
 
 import CurrencyPairPrice from 'currency-pair-price';
 import CryptoCompareSocketConnectionEnum 
@@ -26,7 +27,7 @@ class CurrencyPairPriceList extends React.Component {
     this.props.startCurrencyPairTracking([
       {
         connectionTypeId: CryptoCompareSocketConnectionEnum.CURRENTAGG,
-        fromSymbol: 'XRB',
+        fromSymbol: 'WAN',
         toSymbol: 'ETH',
       },
       {
@@ -50,23 +51,26 @@ class CurrencyPairPriceList extends React.Component {
       <div className="currency-pair-list-container">
         {trackedPairsArray &&
           trackedPairsArray.map(trackedPair =>
-            <div
+            <Card
               key={`${trackedPair.FROMSYMBOL}/${trackedPair.TOSYMBOL}`}
+              elevation={1}
             >
-              <CurrencyPairPrice
-                fromSymbol={trackedPair.FROMSYMBOL}
-                toSymbol={trackedPair.TOSYMBOL}
-                fromCurrencySymbol={trackedPair.FROMCURRENCYSYMBOL}
-                toCurrencySymbol={trackedPair.TOCURRENCYSYMBOL}
-                currentPrice={trackedPair.PRICE}
-                open24h={trackedPair.OPEN24HOUR}
-                high24h={trackedPair.HIGH24HOUR}
-                low24h={trackedPair.LOW24HOUR}
-                change24h={trackedPair.CHANGE24HOUR}
-                changePercent24h={trackedPair.CHANGEPCT24HOUR}
-                volume24h={trackedPair.VOLUME24HOUR}
-              />
-            </div>
+              <CardContent>
+                <CurrencyPairPrice
+                  fromSymbol={trackedPair.FROMSYMBOL}
+                  toSymbol={trackedPair.TOSYMBOL}
+                  fromCurrencySymbol={trackedPair.FROMCURRENCYSYMBOL}
+                  toCurrencySymbol={trackedPair.TOCURRENCYSYMBOL}
+                  currentPrice={trackedPair.PRICE}
+                  open24h={trackedPair.OPEN24HOUR}
+                  high24h={trackedPair.HIGH24HOUR}
+                  low24h={trackedPair.LOW24HOUR}
+                  change24h={trackedPair.CHANGE24HOUR}
+                  changePercent24h={trackedPair.CHANGEPCT24HOUR}
+                  volume24h={trackedPair.VOLUME24HOUR}
+                />
+              </CardContent>
+            </Card>
           )
         }
       </div>
