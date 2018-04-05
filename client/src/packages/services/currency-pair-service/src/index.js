@@ -1,6 +1,8 @@
 import ApiService from 'api-service';
+import ConfigService from 'config-service';
 
-const baseApiUrl = 'https://min-api.cryptocompare.com/data';
+const configService = new ConfigService();
+const generateAverageUrl = configService.generateAverageUrl;
 
 let instance = null;
 
@@ -20,7 +22,7 @@ class CurrencyPairService {
   }
 
   getCurrentAverage(fromSymbol, toSymbol) {
-    const url = `${baseApiUrl}/generateAvg?` +
+    const url = `${generateAverageUrl}?` +
                 `fsym=${fromSymbol}&` +
                 `tsym=${toSymbol}&` +
                 `e=CCCAGG`; 

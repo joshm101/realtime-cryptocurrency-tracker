@@ -26,6 +26,10 @@ class ConfigService {
   get cryptoCompareSocketUrl() {
     return 'wss://streamer.cryptocompare.com/';
   }
+
+  get generateAverageUrl() {
+    return 'https://min-api.cryptocompare.com/data/generateAvg';
+  }
 }
 
 export default ConfigService;

@@ -98,6 +98,52 @@ class MockDataService {
       }
     };
   }
+
+  get currentAverageData() {
+    return {
+      "RAW":{
+        "MARKET":"CUSTOMAGG",
+        "FROMSYMBOL":"WAN",
+        "TOSYMBOL":"ETH",
+        "FLAGS":0,
+        "PRICE":0.008215,
+        "LASTUPDATE":1522956958,
+        "LASTVOLUME":4,
+        "LASTVOLUMETO":0.03285832,
+        "LASTTRADEID":"222465",
+        "VOLUME24HOUR":447449,
+        "VOLUME24HOURTO":3647.3179821900007,
+        "OPEN24HOUR":0.008221,
+        "HIGH24HOUR":0.008333,
+        "LOW24HOUR":0.00801,
+        "LASTMARKET":"CCCAGG",
+        "CHANGE24HOUR":-0.000005999999999999062,
+        "CHANGEPCT24HOUR":-0.07298382191946311,
+        "CHANGEDAY":0,
+        "CHANGEPCTDAY":0
+      },
+      "DISPLAY":{
+        "FROMSYMBOL":"WAN",
+        "TOSYMBOL":"Ξ",
+        "MARKET":"CUSTOMAGG",
+        "PRICE":"Ξ 0.008215",
+        "LASTUPDATE":"1 min ago",
+        "LASTVOLUME":"WAN 4.00",
+        "LASTVOLUMETO":"Ξ 0.03286",
+        "LASTTRADEID":"222465",
+        "VOLUME24HOUR":"WAN 447,449.0",
+        "VOLUME24HOURTO":"Ξ 3,647.32",
+        "OPEN24HOUR":"Ξ 0.008221",
+        "HIGH24HOUR":"Ξ 0.008333",
+        "LOW24HOUR":"Ξ 0.008010",
+        "LASTMARKET":"CCCAGG",
+        "CHANGE24HOUR":"Ξ -0.0000060",
+        "CHANGEPCT24HOUR":"-0.07",
+        "CHANGEDAY":"Ξ 0",
+        "CHANGEPCTDAY":"0"
+      }
+    };
+  }
 }
 
 export default MockDataService;

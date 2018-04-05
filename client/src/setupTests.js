@@ -12,3 +12,12 @@ fetchMock.get(
   configService.coinListUrl, 
   mockDataService.coinListData
 );
+
+// mock fetch requests to the generate
+// average URL and return the mocked
+// average data provided by
+// MockDataService
+fetchMock.get(
+  `begin:${configService.generateAverageUrl}`,
+  mockDataService.currentAverageData,
+);
