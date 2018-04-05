@@ -7,6 +7,11 @@ import { actionTypes as currencyPairTrackingActionTypes }
 
 import initialState from './initial-state';
 
+/**
+ * Reducer for managing currency pair data
+ * @param {Map} state - Current state 
+ * @param {object} action - Action object to process 
+ */
 const currencyPairReducer = (state = initialState, action) => {
   switch (action.type) {
     case currencyPairActionTypes.GET_CURRENT_AVERAGE_SET_SUCCESS:
@@ -18,19 +23,36 @@ const currencyPairReducer = (state = initialState, action) => {
   }
 }
 
+/**
+ * Handles RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE action
+ * @param {Map} state - Current state 
+ * @param {object} action - RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE
+ * action object
+ * @return {Map} - Updated state 
+ */
 const handleReceivedCurrencyPairTrackingMessage = (state, action) => {
   const { data } = action;
   const fromSymbol = data.FROMSYMBOL;
   const toSymbol = data.TOSYMBOL;
+  // update data for fromSymbol/toSymbol currency pair
   return state.mergeIn(
     [`${fromSymbol}/${toSymbol}`],
     Immutable.fromJS(data)
   );
 }
 
+/**
+ * Handles GET_CURRENT_AVERAGE_SET_SUCCESS action
+ * @param {Map} state - Current state 
+ * @param {object} action - GET_CURRENT_AVERAGE_SET_SUCCESS
+ * action object
+ * @return {Map} - Updated state 
+ */
 const handleGetCurrentAverageSetSuccess = (state, action) => {
   const { dataArray } = action;
   const newState = dataArray.reduce((current, data) => {
+    // consolidate data from RAW and DISPLAY into one
+    // set of data to store in reducer.
     const fromSymbol = data.RAW.FROMSYMBOL
     const toSymbol = data.RAW.TOSYMBOL;
     const fromCurrencySymbol = data.DISPLAY.FROMSYMBOL;
