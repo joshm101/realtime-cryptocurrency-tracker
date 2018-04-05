@@ -1,9 +1,11 @@
 import React from 'react';
-import { Card, CardContent } from 'material-ui';
+import { List, ListSubheader, Card, CardContent } from 'material-ui';
 
 import CurrencyPairPrice from 'currency-pair-price';
 import CryptoCompareSocketConnectionEnum 
   from 'cc-socket-connection-enum';
+
+import ListItem from './components/ListItem';
   
 class CurrencyPairPriceList extends React.Component {
   componentDidMount() {
@@ -43,34 +45,49 @@ class CurrencyPairPriceList extends React.Component {
     ]);
   }
 
+  /**
+   * Derives the change amount in the last 24 hours
+   * using the open price for the last 24 hours and
+   * the current price.
+   * 
+   * @param {object} trackedPair - Currency pair to calculate
+   * the 24 hour change for
+   * @return {object} Change in price and percentage for the
+   * last 24 hours.
+   */
+  calculate24HourChange = (trackedPair) => {
+    const open24h = trackedPair.OPEN24HOUR;
+    const price = trackedPair.PRICE;
+    const change24h = price - open24h;
+    return {
+      change24h,
+      changePercent24h: (change24h / open24h) * 100,
+    }
+  }
+
   render() {
     const trackedPairsArray = Object.values(
       this.props.trackedPairs || []
     );
     return (
-      <div className="currency-pair-list-container">
+      <div>
         {trackedPairsArray &&
           trackedPairsArray.map(trackedPair =>
-            <Card
+            <div 
               key={`${trackedPair.FROMSYMBOL}/${trackedPair.TOSYMBOL}`}
-              elevation={1}
+              className="cppl-list-item-container"
             >
-              <CardContent>
-                <CurrencyPairPrice
-                  fromSymbol={trackedPair.FROMSYMBOL}
-                  toSymbol={trackedPair.TOSYMBOL}
-                  fromCurrencySymbol={trackedPair.FROMCURRENCYSYMBOL}
-                  toCurrencySymbol={trackedPair.TOCURRENCYSYMBOL}
-                  currentPrice={trackedPair.PRICE}
-                  open24h={trackedPair.OPEN24HOUR}
-                  high24h={trackedPair.HIGH24HOUR}
-                  low24h={trackedPair.LOW24HOUR}
-                  change24h={trackedPair.CHANGE24HOUR}
-                  changePercent24h={trackedPair.CHANGEPCT24HOUR}
-                  volume24h={trackedPair.VOLUME24HOUR}
-                />
-              </CardContent>
-            </Card>
+              <ListItem
+                fromSymbol={trackedPair.FROMSYMBOL}
+                toSymbol={trackedPair.TOSYMBOL}
+                fromCurrencySymbol={trackedPair.FROMCURRENCYSYMBOL}
+                toCurrencySymbol={trackedPair.TOCURRENCYSYMBOL}
+                currentPrice={trackedPair.PRICE}
+                change24h={this.calculate24HourChange(trackedPair).change24h}
+                changePercent24h={this.calculate24HourChange(trackedPair).changePercent24h}
+                volume24hTo={trackedPair.VOLUME24HOURTO}
+              />
+            </div>
           )
         }
       </div>

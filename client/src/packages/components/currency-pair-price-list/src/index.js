@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import toJS from 'to-js';
 import { actions } from 'currency-pair-tracking-actions';
 
-import CurrencyPairPriceList from './CurrencyPairPriceList.component';
+import CurrencyPairPriceList from './CurrencyPairPriceList';
 
 const mapStateToProps = state => ({
   trackedPairs: state.get('currencyPairReducer'),
