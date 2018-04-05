@@ -68,6 +68,11 @@ export const openCurrencyPairTrackingConnectionSuccess = ({
   connectionPairs,
 });
 
+/**
+ * Creates an OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object
+ * @param {Error} error - Error object
+ * @return {object} OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object 
+ */
 export const openCurrencyPairTrackingConnectionError = (error) => ({
   type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR,
   error,
