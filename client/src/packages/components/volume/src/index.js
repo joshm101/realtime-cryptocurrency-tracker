@@ -2,7 +2,7 @@ import React from 'react';
 
 import NumberWithCommas from 'number-with-commas';
 
-const Volume24h = ({
+const Volume = ({
   symbol,
   value,
 }) => (
