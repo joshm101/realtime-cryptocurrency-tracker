@@ -8,13 +8,13 @@ const Change24h = ({
   changePercent,
 }) => {
   let changeColor;
-  if (change24h < 0) {
+  if (changeAmount < 0) {
     changeColor = '#D50000';
   }
-  if (change24h > 0) {
+  if (changeAmount > 0) {
     changeColor = '#1B5E20';
   }
-  if (change24h === 0) {
+  if (changeAmount === 0) {
     changeColor = '#000';
   }
   const styles = {

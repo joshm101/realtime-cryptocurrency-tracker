@@ -5,9 +5,13 @@ const QuickInfoItem = ({
   subtext
 }) => (
   <div className="cppl-quick-info-item">
-    {children}
+    <div>
+      {children}
+    </div>
     <div className="cppl-subtext">
       {subtext}
     </div>
   </div>
 );
+
+export default QuickInfoItem;

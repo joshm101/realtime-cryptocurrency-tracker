@@ -13,3 +13,5 @@ const Volume = ({
     </span>
   </div>
 )
+
+export default Volume;
