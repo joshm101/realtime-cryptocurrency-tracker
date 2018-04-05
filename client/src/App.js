@@ -6,7 +6,7 @@ import logo from './logo.svg';
 import './App.css';
 import rootReducer from './reducer';
 import rootSaga from './sagas';
-import CoinListContainer from 'coin-list-container';
+import CoinList from 'coin-list';
 import CurrencyPairPriceList from 'currency-pair-price-list';
 
 const sagaMiddleware = createSagaMiddleware()
@@ -27,7 +27,7 @@ class App extends Component {
           <div className="currency-pair-price-list">
             <CurrencyPairPriceList />
           </div>
-          <CoinListContainer />
+          <CoinList />
         </div>
       </Provider>
     );

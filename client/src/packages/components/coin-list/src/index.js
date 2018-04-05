@@ -1,15 +1,21 @@
-import React from 'react';
+import { connect } from 'react-redux';
 
-class CoinList extends React.Component {
-  componentDidMount() {
-    this.props.getCoinList();
-  }
+import { actions } from 'coins-actions';
+import CoinList from './CoinList';
 
-  render() {
-    return (
-      <div></div>
-    );
+const mapStateToProps = (state, ownProps) => {
+  return {};
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getCoinList: () => {
+      dispatch(actions.getCoinList());
+    }
   }
 }
 
-export default CoinList;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CoinList);

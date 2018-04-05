@@ -11,7 +11,7 @@
     "currency-pair-connections-reducer": "1.0.0",
     "coins-saga": "1.0.0",
     "currency-pair-tracking-saga": "1.0.0",
-    "coin-list-container": "1.0.0",
+    "coin-list": "1.0.0",
     "config-service": "1.0.0",
     "mock-data-service": "1.0.0",
     "currency-pair-price": "1.0.0",
