@@ -89,7 +89,7 @@ class UpdatedPrice extends React.Component {
     const priceTextColor = this.getPriceTextColor();
     const priceChangeIcon = this.getPriceChangeIcon();
     return (
-      <h1 style={{ color: priceTextColor }}>
+      <div className="up-display" style={{ color: priceTextColor }}>
         <span>{priceChangeIcon}</span> 
         <span>
           &nbsp;{`${toCurrencySymbol || '$'}`}
@@ -97,7 +97,7 @@ class UpdatedPrice extends React.Component {
         <span>
           &nbsp;<NumberWithCommas value={price} />
         </span>
-      </h1>
+      </div>
     );
   }
 }
