@@ -1,7 +1,6 @@
 import React from 'react';
 import { List, ListSubheader, Card, CardContent } from 'material-ui';
 
-import CurrencyPairPrice from 'currency-pair-price';
 import CryptoCompareSocketConnectionEnum 
   from 'cc-socket-connection-enum';
 
