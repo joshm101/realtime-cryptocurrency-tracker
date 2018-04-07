@@ -55,7 +55,6 @@ function* currencyPairSocketResponseHandler(action) {
       yield put(
         actions.openCurrencyPairTrackingConnectionSuccess({
           connectionId,
-          connectionChannel,
           connectionPairs,
         })
       );
