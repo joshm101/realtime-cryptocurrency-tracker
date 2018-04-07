@@ -1,7 +1,9 @@
 import Immutable from 'immutable';
 
 import { actionTypes } from 'currency-pair-tracking-actions';
-import initialState from './initial-state';
+import createInitialState from './initial-state';
+
+const initialState = createInitialState();
 
 /**
  * Reducer for keeping track of open currency pair connections
