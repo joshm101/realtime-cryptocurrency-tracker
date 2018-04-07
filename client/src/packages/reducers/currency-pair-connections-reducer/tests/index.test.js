@@ -46,6 +46,9 @@ test('handle CLOSE_CURRENCY_PAIR_TRACKING_CONNECTION_SUCCESS action', () => {
     actions.closeCurrencyPairTrackingConnectionSuccess(connectionId)
   );
 
+  // Expect connections state property to be a Map
+  expect(state.get('connections')).toBeInstanceOf(Immutable.Map);
+
   // none of the mapped connection IDs should match
   // the connectionId from ./mock-data.js after that
   // connection has been successfully closed
