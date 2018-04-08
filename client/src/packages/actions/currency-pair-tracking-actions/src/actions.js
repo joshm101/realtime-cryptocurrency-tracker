@@ -133,6 +133,22 @@ export const currencyPairTrackingConnectionDisconnect = (
   connectionPairs,
 });
 
+/**
+ * Creates a CURRENCY_PAIR_TRACKING_CONNECTION_UNKNOWN_ERROR action object
+ * @param {Error} error - Error object 
+ * @param {object[]} connectionPairs - Array of connection pair objects
+ * which tells us which currency pairs were associated with the connection
+ * that had an unknown error.
+ * @return {object} - CURRENCY_PAIR_TRACKING_CONNECTION_UNKNOWN_ERROR action object
+ */
+export const currencyPairTrackingConnectionUnknownError = (
+  error, connectionPairs
+) => ({
+  type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_UNKNOWN_ERROR,
+  error,
+  connectionPairs,
+});
+
 /** 
  * Creates a RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE action object
  * @param {object} data - New data from CryptoCompare API for a
