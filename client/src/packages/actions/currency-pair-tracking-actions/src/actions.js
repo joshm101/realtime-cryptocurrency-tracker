@@ -69,11 +69,68 @@ export const openCurrencyPairTrackingConnectionSuccess = ({
 /**
  * Creates an OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object
  * @param {Error} error - Error object
+ * @param {object[]} connectionPairs - Array of connection pair objects
+ * which tells us which currency pairs were associated with the connection
+ * that errored out.
  * @return {object} OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object 
  */
-export const openCurrencyPairTrackingConnectionError = (error) => ({
+export const openCurrencyPairTrackingConnectionError = (
+  error, connectionPairs
+) => ({
   type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR,
   error,
+  connectionPairs,
+});
+
+/**
+ * Creates an OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_TIMEOUT action object.
+ * Socket.IO treats an open connection error and open connection timeout
+ * as two discrete events, so we have corresponding action objects
+ * created for each event for error handling convenience.
+ * @param {Error} error - Error object 
+ * @param {object[]} connectionPairs - Array of connectino pair objects
+ * which tells us which currency pairs were associated with the connection
+ * that timed-out.
+ * @return {object} - OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_TIMEOUT action object
+ */
+export const openCurrencyPairTrackingConnnectionTimeout = (
+  error, connectionPairs
+) => ({
+  type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_TIMEOUT,
+  error,
+  connectionPairs,
+});
+
+/**
+ * Creates a CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object
+ * @param {Error} error - Error object.
+ * @param {object[]} connectionPairs - Array of connection pair objects
+ * which tells us which currency pairs were associated with the connection
+ * that came across an error.
+ * @return {object} CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object
+ */
+export const currencyPairTrackingConnectionError = (
+  error, connectionPairs
+) => ({
+  type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_ERROR,
+  error,
+  connectionPairs,
+});
+
+/**
+ * Creates a CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT action object
+ * @param {Error} error - Error object 
+ * @param {object[]} connectionPairs - Array of connection pair objects
+ * which tells us which currency pairs were associated with the disconnected
+ * WebSocket connection.
+ * @return {object} - CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT action object
+ */
+export const currencyPairTrackingConnectionDisconnect = (
+  error, connectionPairs,
+) => ({
+  type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT,
+  error,
+  connectionPairs,
 });
 
 /** 
