@@ -9,10 +9,16 @@ import { v4 } from 'uuid';
 
 import { actions, actionTypes } from 'currency-pair-tracking-actions';
 import { actions as currentAverageActions } from 'currency-pair-actions';
-import createCurrencyPairTrackingEventChannel
-  from './factories/currency-pair-tracking-event-channel';
 import CurrencyPairService from 'currency-pair-service';
 import CCC from 'ccc-streamer-utilities';
+
+import createCurrencyPairTrackingEventChannel
+  from './factories/currency-pair-tracking-event-channel';
+import connectionNotEstablishedHandler
+  from './socket-event-handlers/connection-not-established-handler';
+import connectionErrorHandler
+  from './socket-event-handlers/connection-error-handler';
+import { NO_CONNECTION_PAIRS_SPECIFIED } from './misc-errors';
 
 const currencyPairService = new CurrencyPairService();
 
@@ -35,12 +41,18 @@ let eventChannelMapping = {};
  */
 function* currencyPairSocketResponseHandler(action) {
   switch (action.type) {
-    case 'CONNECTION_OPENED':
+    case actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_TIMEOUT:
+      yield connectionNotEstablishedHandler(action);
+      break;
+    case actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR:
+      yield connectionNotEstablishedHandler(action);
+      break;
+    case actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_SUCCESS:
       // retrieve values provided in given action
       const {
         connectionId,
         connectionChannel,
-        connectionPairs
+        connectionPairs,
       } = action;
 
       // adds the provided connectionChannel to the
@@ -49,7 +61,7 @@ function* currencyPairSocketResponseHandler(action) {
       addEventChannelMappingEntry(
         connectionPairs, 
         connectionChannel, 
-        connectionId
+        connectionId,
       );
 
       yield put(
@@ -59,7 +71,7 @@ function* currencyPairSocketResponseHandler(action) {
         })
       );
       break;
-    case 'NEW_DATA':
+    case actionTypes.RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE:
       const { message } = action;
       const response = CCC.CURRENT.unpack(message);
       if (response.TYPE === '3') {
@@ -68,6 +80,12 @@ function* currencyPairSocketResponseHandler(action) {
       yield put(
         actions.receivedCurrencyPairTrackingMessage(response)
       );
+      break;
+    case actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT:
+      yield connectionErrorHandler(action);
+      break;
+    case actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_ERROR:
+      yield connectionErrorHandler(action);
       break;
     default:
       break;
@@ -83,6 +101,9 @@ function* currencyPairSocketResponseHandler(action) {
 function* openCurrencyPairTrackingConnectionHandler(action) {
   try {
     const { connectionPairs } = action;
+    if (!connectionPairs || (connectionPairs && !connectionPairs.length)) {
+      throw new Error(NO_CONNECTION_PAIRS_SPECIFIED);
+    }
     const connectionChannel = createCurrencyPairTrackingEventChannel(
       connectionPairs
     );
@@ -102,17 +123,44 @@ function* openCurrencyPairTrackingConnectionHandler(action) {
     );
 
     while (true) {
-      let action = yield take(connectionChannel);
-      yield currencyPairSocketResponseHandler({
-        ...action,
-        connectionChannel,
-        connectionPairs,
-      });
+      try {
+        const action = yield take(connectionChannel);
+        yield currencyPairSocketResponseHandler({
+          ...action,
+          connectionChannel,
+          connectionPairs,
+        });
+      } catch (e) {
+        // catch any Errors thrown from connectionChannel
+        console.error(e);
+        yield put(
+          actions.currencyPairTrackingConnectionUnknownError(
+            connectionPairs, e
+          )
+        );
+      }
     }
   } catch (e) {
     console.error(e);
+
+    if (e.message !== NO_CONNECTION_PAIRS_SPECIFIED) {
+      // catches any errors that are not considered "known errors," or
+      // where "known errors" are:
+      // open connection error, open connection timeout error, 
+      // general connection error, connection disconnect error,
+      // no connection pairs specified error,
+      const { connectionPairs } = action;
+      yield put(
+        actions.currencyPairTrackingConnectionUnknownError(
+          connectionPairs, e
+        )
+      );
+    }
+
     yield put(
-      actions.openCurrencyPairTrackingConnectionError(e)
+      // null connectionId and connectionPair means consuming code
+      // should defer to e.message for error information.
+      actions.openCurrencyPairTrackingConnectionError(null, null, e)
     );
   }
 }
