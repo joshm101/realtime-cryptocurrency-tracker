@@ -6,6 +6,7 @@
 import { eventChannel, buffers } from 'redux-saga';
 
 import CryptoCompareSocketConnectionService from 'cc-socket-connection-service';
+import { actionTypes } from 'currency-pair-tracking-actions';
 
 const socketConnectionService = new CryptoCompareSocketConnectionService();
 
@@ -33,15 +34,46 @@ const createCurrencyPairTrackingEventChannel = (connectionPairs) => {
 
     socket.on('connect', () => {
       emitter({
-        type: 'CONNECTION_OPENED',
+        type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_SUCCESS,
+        connectionId,
+      })
+    });
+
+    socket.on('connect_timeout', () => {
+      emitter({
+        type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_TIMEOUT,
         connectionId,
       })
     })
 
+    socket.on('connect_error', (error) => {
+      emitter({
+        type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR,
+        connectionId,
+        error,
+      });
+    });
+
+    socket.on('disconnect', (reason) => {
+      emitter({
+        type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT,
+        connectionId,
+        error: new Error(reason),
+      });
+    });
+
+    socket.on('error', (error) => {
+      emitter({
+        type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_ERROR,
+        connectionId,
+        error,
+      });
+    });
+
     // Emit latest data from WebSocket connection
     socket.on('m', (message) => {
       emitter({
-        type: 'NEW_DATA',
+        type: actionTypes.RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE,
         connectionId,
         message,
       });
