@@ -67,86 +67,87 @@ export const openCurrencyPairTrackingConnectionSuccess = ({
 });
 
 /**
- * Creates an OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object
- * @param {Error} error - Error object
- * @param {object[]} connectionPairs - Array of connection pair objects
- * which tells us which currency pairs were associated with the connection
- * that errored out.
- * @return {object} OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object 
- */
-export const openCurrencyPairTrackingConnectionError = (
-  error, connectionPairs
-) => ({
-  type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR,
-  error,
-  connectionPairs,
-});
-
-/**
  * Creates an OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_TIMEOUT action object.
  * Socket.IO treats an open connection error and open connection timeout
  * as two discrete events, so we have corresponding action objects
  * created for each event for error handling convenience.
- * @param {Error} error - Error object 
- * @param {object[]} connectionPairs - Array of connectino pair objects
+ * @param {string} connectionId - ID of connection that timed out 
+ * @param {object[]} connectionPairs - Array of connection pair objects
  * which tells us which currency pairs were associated with the connection
  * that timed-out.
+ * @param {Error} - Error object
  * @return {object} - OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_TIMEOUT action object
  */
-export const openCurrencyPairTrackingConnnectionTimeout = (
-  error, connectionPairs
+export const openCurrencyPairTrackingConnectionTimeout = (
+  connectionId, connectionPairs, error,
 ) => ({
   type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_TIMEOUT,
-  error,
+  connectionId,
   connectionPairs,
+  error,
+});
+
+export const openCurrencyPairTrackingConnectionError = (
+  connectionId, connectionPairs, error,
+) => ({
+  type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_ERROR,
+  connectionId,
+  connectionPairs,
+  error,
 });
 
 /**
  * Creates a CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object
- * @param {Error} error - Error object.
+ * NOTE: null connectionId and connectionPair means consuming code
+ * should defer to error.message for error information.
+ * @param {string} connectionId - ID of connection where error occurred.
  * @param {object[]} connectionPairs - Array of connection pair objects
  * which tells us which currency pairs were associated with the connection
  * that came across an error.
+ * @param {Error} error - Error object.
  * @return {object} CURRENCY_PAIR_TRACKING_CONNECTION_ERROR action object
  */
 export const currencyPairTrackingConnectionError = (
-  error, connectionPairs
+  connectionId, connectionPairs, error
 ) => ({
   type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_ERROR,
-  error,
+  connectionId,
   connectionPairs,
+  error,
 });
 
 /**
  * Creates a CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT action object
- * @param {Error} error - Error object 
+ * @param {string} connectionId -  ID of disconnected connection 
  * @param {object[]} connectionPairs - Array of connection pair objects
  * which tells us which currency pairs were associated with the disconnected
  * WebSocket connection.
+ * @param {Error} error - Error object
  * @return {object} - CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT action object
  */
 export const currencyPairTrackingConnectionDisconnect = (
-  error, connectionPairs,
+  connectionId, connectionPairs, error
 ) => ({
   type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT,
-  error,
+  connectionId,
   connectionPairs,
+  error,
 });
 
 /**
  * Creates a CURRENCY_PAIR_TRACKING_CONNECTION_UNKNOWN_ERROR action object
- * @param {Error} error - Error object 
  * @param {object[]} connectionPairs - Array of connection pair objects
  * which tells us which currency pairs were associated with the connection
  * that had an unknown error.
+ * @param {Error} error - Error object 
  * @return {object} - CURRENCY_PAIR_TRACKING_CONNECTION_UNKNOWN_ERROR action object
  */
 export const currencyPairTrackingConnectionUnknownError = (
-  error, connectionPairs
+  connectionPairs, error
 ) => ({
   type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_UNKNOWN_ERROR,
-  error,
   connectionPairs,
+  error,
 });
 
 /** 
