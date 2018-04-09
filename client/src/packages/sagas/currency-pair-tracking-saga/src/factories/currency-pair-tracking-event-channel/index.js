@@ -8,7 +8,10 @@ import { eventChannel, buffers } from 'redux-saga';
 import CryptoCompareSocketConnectionService from 'cc-socket-connection-service';
 import { actionTypes } from 'currency-pair-tracking-actions';
 
+import { NO_CONNECTION_PAIRS_SPECIFIED } from '../../misc-errors';
+
 const socketConnectionService = new CryptoCompareSocketConnectionService();
+
 
 /**
  * Creates an event channel to track a given set of currency pairs
@@ -23,6 +26,9 @@ const socketConnectionService = new CryptoCompareSocketConnectionService();
  * the created eventChannel
  */
 const createCurrencyPairTrackingEventChannel = (connectionPairs) => {
+  if (!connectionPairs || (connectionPairs && !connectionPairs.length)) {
+    throw new Error(NO_CONNECTION_PAIRS_SPECIFIED);
+  }
   return eventChannel((emitter => {
     // Open a WebSocket connection via socketConnectionService.
     // The function openConnection accepts an array of connection pair
