@@ -57,10 +57,19 @@ const handleGetCurrentAverageSetSuccess = (state, action) => {
     const toSymbol = data.RAW.TOSYMBOL;
     const fromCurrencySymbol = data.DISPLAY.FROMSYMBOL;
     const toCurrencySymbol = data.DISPLAY.TOSYMBOL;
-    data.RAW.FROMCURRENCYSYMBOL = fromCurrencySymbol;
-    data.RAW.TOCURRENCYSYMBOL = toCurrencySymbol;
-    current[`${fromSymbol}/${toSymbol}`] = data.RAW;
-    return current;
+    data = {
+      ...data,
+      RAW: {
+        ...data.RAW,
+        FROMCURRENCYSYMBOL: fromCurrencySymbol,
+        TOCURRENCYSYMBOL: toCurrencySymbol,
+      }
+    };
+
+    return {
+      ...current,
+      [`${fromSymbol}/${toSymbol}`]: data.RAW,
+    };
   }, {});
   return state.merge(
     Immutable.fromJS(newState)
