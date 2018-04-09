@@ -1,0 +1,1 @@
+export const NO_CONNECTION_PAIRS_SPECIFIED = 'No currency pairs were specified for tracking.';
