@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
-const initialState = Immutable.fromJS({
+const createInitialState = () => Immutable.fromJS({
 
 });
 
-export default initialState;
+export default createInitialState;

@@ -5,7 +5,9 @@ import { actionTypes as currencyPairActionTypes }
 import { actionTypes as currencyPairTrackingActionTypes }
   from 'currency-pair-tracking-actions';
 
-import initialState from './initial-state';
+import createInitialState from './initial-state';
+
+const initialState = createInitialState();
 
 /**
  * Reducer for managing currency pair data
