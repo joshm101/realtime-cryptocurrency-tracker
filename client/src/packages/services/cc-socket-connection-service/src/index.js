@@ -61,7 +61,9 @@ class CryptoCompareSocketConnectionService {
     // Connect to the CryptoCompare WebSocket API
     // and subscribe to updates for the given
     // connection strings
-    const socket = io.connect(this.socketUrl)
+    const socket = io.connect(this.socketUrl, {
+      reconnection: false,
+    });
     socket.emit('SubAdd', { subs: connectionStrings });
 
     // Update the socketConnections lookup object
