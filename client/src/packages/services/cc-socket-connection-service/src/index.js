@@ -30,6 +30,10 @@ class CryptoCompareSocketConnectionService {
       this.socketStringFactory = new CryptoCompareSocketConnectionStringFactory();
       const configService = new ConfigService();
       this.socketUrl = configService.cryptoCompareSocketUrl;
+      // used to determine whether or not a disconnect
+      // event was emitted from a disconnect error or
+      // a programmatic disconnect.
+      this.connectionNotForceClosed = false;      
     }
 
     // Return single instance of this service
@@ -100,8 +104,11 @@ class CryptoCompareSocketConnectionService {
       return false;
     }
 
+    this.connectionNotForceClosed = true;
+
     // close connection and return true for success
     connectionToClose.close();
+    this.connectionNotForceClosed = false;
     delete this.socketConnections[connectionId];
     return true;
   }

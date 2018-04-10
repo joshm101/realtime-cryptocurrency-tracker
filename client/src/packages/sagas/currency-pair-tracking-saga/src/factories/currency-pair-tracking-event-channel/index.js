@@ -61,11 +61,16 @@ const createCurrencyPairTrackingEventChannel = (connectionPairs) => {
     });
 
     socket.on('disconnect', (reason) => {
-      emitter({
-        type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT,
-        connectionId,
-        error: new Error(reason),
-      });
+      if (!socketConnectionService.connectionNotForceClosed) {
+        // connection was force closed (lost network connection),
+        // emit the CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT
+        // action.
+        emitter({
+          type: actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT,
+          connectionId,
+          error: new Error(reason),
+        });
+      }
     });
 
     socket.on('error', (error) => {
