@@ -18,6 +18,8 @@ import connectionNotEstablishedHandler
   from './socket-event-handlers/connection-not-established-handler';
 import connectionErrorHandler
   from './socket-event-handlers/connection-error-handler';
+import connectionDisconnectHandler
+  from './socket-event-handlers/connection-disconnect-handler';
 import { NO_CONNECTION_PAIRS_SPECIFIED } from './misc-errors';
 
 const currencyPairService = new CurrencyPairService();
@@ -82,7 +84,7 @@ function* currencyPairSocketResponseHandler(action) {
       );
       break;
     case actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT:
-      yield connectionErrorHandler(action);
+      yield connectionDisconnectHandler(action);
       break;
     case actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_ERROR:
       yield connectionErrorHandler(action);

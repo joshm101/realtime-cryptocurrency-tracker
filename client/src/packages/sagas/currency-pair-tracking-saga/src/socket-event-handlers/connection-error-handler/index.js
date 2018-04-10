@@ -45,12 +45,6 @@ const getActionToDispatch = (action) => {
   } = action;
   
   switch (type) {
-    case actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT:
-      return actions.currencyPairTrackingConnectionDisconnect(
-        connectionId,
-        connectionPairs,
-        error,
-      );
     case actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_ERROR:
       return actions.currencyPairTrackingConnectionError(
         connectionId,
