@@ -38,6 +38,10 @@ class NumberWithCommas extends React.Component {
    * @return {string} "display-ready" string
    */
   generateDisplayValue = (value) => {
+    if (!value || isNaN(value)) {
+      return '';
+    }
+    
     value = parseFloat(value);
     const precision = this.getNumberPrecision(value);
     if (precision === 1) {
