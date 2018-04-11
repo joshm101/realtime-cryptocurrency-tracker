@@ -15,10 +15,10 @@ test('return the initial state', () => {
 test('handle the OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_SUCCESS action', () => {
   const state = reducer(
     createInitialState(),
-    actions.openCurrencyPairTrackingConnectionSuccess({
+    actions.openCurrencyPairTrackingConnectionSuccess(
       connectionId,
       connectionPairs,
-    })
+    )
   )
   // Expect connections state property to be a Map
   expect(state.get('connections')).toBeInstanceOf(Immutable.Map);
