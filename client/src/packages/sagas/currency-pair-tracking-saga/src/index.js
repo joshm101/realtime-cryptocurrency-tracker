@@ -89,12 +89,16 @@ function* openCurrencyPairTrackingConnectionHandler(action) {
       )
     );
 
+    // get initial set of latest data for currency pairs
+    // being tracked in this connection
     yield put(
       currentAverageActions.getCurrentAverageSetSuccess(
         initialAverageDataArray
       )
     );
 
+    // infinite loop which processes emissions from the
+    // event channel
     while (true) {
       try {
         const action = yield take(connectionChannel);
