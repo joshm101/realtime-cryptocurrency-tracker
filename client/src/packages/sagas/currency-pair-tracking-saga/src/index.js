@@ -10,10 +10,13 @@ import { v4 } from 'uuid';
 import { actions, actionTypes } from 'currency-pair-tracking-actions';
 import { actions as currentAverageActions } from 'currency-pair-actions';
 import CurrencyPairService from 'currency-pair-service';
+import CryptoCompareSocketConnectionService from 'cc-socket-connection-service';
 import CCC from 'ccc-streamer-utilities';
 
 import createCurrencyPairTrackingEventChannel
   from './factories/currency-pair-tracking-event-channel';
+import connectionEstablishedHandler
+  from './socket-event-handlers/connection-established-handler';
 import connectionNotEstablishedHandler
   from './socket-event-handlers/connection-not-established-handler';
 import connectionErrorHandler
@@ -22,19 +25,8 @@ import connectionDisconnectHandler
   from './socket-event-handlers/connection-disconnect-handler';
 import { NO_CONNECTION_PAIRS_SPECIFIED } from './misc-errors';
 
+const socketConnectionService = new CryptoCompareSocketConnectionService();
 const currencyPairService = new CurrencyPairService();
-
-/** 
- * { 
- *   [connectionId: string]: {
- *     symbolPairs: {
- *       [currencyPair: string]: boolean
- *     },
- *     connectionChannel: EventChannel
- *   }
- * } 
- */
-let eventChannelMapping = {};
 
 /**
  * Handles new information received by an EventChannel from
@@ -50,28 +42,7 @@ function* currencyPairSocketResponseHandler(action) {
       yield connectionNotEstablishedHandler(action);
       break;
     case actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_SUCCESS:
-      // retrieve values provided in given action
-      const {
-        connectionId,
-        connectionChannel,
-        connectionPairs,
-      } = action;
-
-      // adds the provided connectionChannel to the
-      // eventChannelMapping object since the
-      // connection has been successfully opened.
-      addEventChannelMappingEntry(
-        connectionPairs, 
-        connectionChannel, 
-        connectionId,
-      );
-
-      yield put(
-        actions.openCurrencyPairTrackingConnectionSuccess({
-          connectionId,
-          connectionPairs,
-        })
-      );
+      yield connectionEstablishedHandler(action);
       break;
     case actionTypes.RECEIVED_CURRENCY_PAIR_TRACKING_MESSAGE:
       const { message } = action;
@@ -175,15 +146,11 @@ function* openCurrencyPairTrackingConnectionHandler(action) {
 function* closeCurrencyPairTrackingConnectionHandler(action) {
   try {
     const { connectionId } = action;
-    const { connectionChannel } = eventChannelMapping[connectionId];
+    const { connectionChannel } = socketConnectionService.socketConnections[connectionId];
 
     // invoke connectionChannel's close
     // function to close the connection.
     connectionChannel.close();
-
-    // remove the entry in the eventChannelMapping 
-    // lookup object.
-    delete eventChannelMapping[connectionId];
 
     yield put(
       actions.closeCurrencyPairTrackingConnectionSuccess(connectionId)
@@ -194,38 +161,6 @@ function* closeCurrencyPairTrackingConnectionHandler(action) {
       actions.closeCurrencyPairTrackingConnectionError(e)
     );
   }
-}
-
-/**
- * Adds an entry to the eventChannelMapping for the given
- * EventChannel. Each entry specifies symbol pairs and the
- * actual connectionChannel for the given set of symbol pairs.
- * 
- * @param {object[]} connectionPairs - Array of connection pair objects
- * used to construct an object mapping a symbol pair string to
- * a boolean value
- * @param {object} connectionChannel - EventChannel object
- * @param {string} connectionChannelId - eventChannelMapping lookup
- * ID for the given connectionChannel param to be mapped.
- */
-const addEventChannelMappingEntry = (
-  connectionPairs, connectionChannel, connectionChannelId
-) => {
-  // construct a symbol pair lookup object which contains the symbol
-  // pairs that are being tracked with the opened connection.
-  const symbolPairs = connectionPairs.reduce((current, connectionPair) => ({
-    ...current,
-
-    // example: { 'ETH/USD': true }
-    [`${connectionPair.fromSymbol}/${connectionPair.toSymbol}`]: true
-  }), {});
-
-  // set event channel mapping for newly opened
-  // connection referenced by connectionChannelId
-  eventChannelMapping[connectionChannelId] = {
-    symbolPairs,
-    connectionChannel,
-  };
 }
 
 function* currencyPairTrackingSaga() {

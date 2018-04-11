@@ -12,6 +12,11 @@ const connectionPairs = [
   },
 ];
 
+const openConnectionSuccessAction = actions.openCurrencyPairTrackingConnectionSuccess(
+  connectionId,
+  connectionPairs,
+);
+
 const openConnectionTimeoutAction = actions.openCurrencyPairTrackingConnectionTimeout(
   connectionId,
   connectionPairs,
@@ -47,6 +52,7 @@ export {
   connectionPairs,
   openConnectionTimeoutAction,
   openConnectionErrorAction,
+  openConnectionSuccessAction,
   disconnectAction,
   connectionErrorAction,
   unknownConnectionErrorAction,
