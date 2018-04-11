@@ -1,3 +1,11 @@
+# To Run
+
+1. Clone this repository to your local environment: 
+```
+git clone https://github.com/joshm101/realtime-cryptocurrency-tracker.git
+```
+2. Navigate to `/client` directory. Instructions continued below:
+
 Prerequisites (assuming [Node.js](https://nodejs.org/) is installed)
 -------------
 - [lerna](https://github.com/lerna/lerna) `npm install -g lerna`
