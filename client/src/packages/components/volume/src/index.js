@@ -7,10 +7,14 @@ const Volume = ({
   value,
 }) => (
   <div>
-    <span>{symbol}</span>
-    <span>
-      &nbsp;<NumberWithCommas value={value.toFixed(0)} />
-    </span>
+    {value && !isNaN(value) &&
+      <div>
+        <span>{symbol}</span>
+        <span>
+          &nbsp;<NumberWithCommas value={parseFloat(value).toFixed(0)} />
+        </span>
+      </div>
+    }
   </div>
 )
 
