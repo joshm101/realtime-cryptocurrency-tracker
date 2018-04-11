@@ -57,10 +57,10 @@ export const closeCurrencyPairTrackingConnectionError = (error) => ({
  * @return {object} - OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_SUCCESS
  * action object
  */
-export const openCurrencyPairTrackingConnectionSuccess = ({
+export const openCurrencyPairTrackingConnectionSuccess = (
   connectionId, 
   connectionPairs,
-}) => ({
+) => ({
   type: actionTypes.OPEN_CURRENCY_PAIR_TRACKING_CONNECTION_SUCCESS,
   connectionId,
   connectionPairs,
