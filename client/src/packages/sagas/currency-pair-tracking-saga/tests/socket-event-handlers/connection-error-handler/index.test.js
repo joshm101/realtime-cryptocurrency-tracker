@@ -10,26 +10,6 @@ import {
 } from '../../mock-data';
 
 test(
-  'Should return a ' + 
-  `${actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT} ` + 
-  'action followed by a ' +
-  `${actionTypes.CLOSE_CURRENCY_PAIR_TRACKING_CONNECTION} ` +
-  'action when provided a' +
-  `${actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_DISCONNECT} action.`,
-  () => {
-    const activeGenerator = connectionErrorHandler(disconnectAction);
-
-    const firstResult = activeGenerator.next().value;
-    expect(firstResult.PUT.action).toMatchObject(disconnectAction);
-
-    const secondResult = activeGenerator.next().value;
-    expect(secondResult.PUT.action).toMatchObject(
-      actions.closeCurrencyPairTrackingConnection(connectionId)
-    );
-  }
-);
-
-test(
   'Should return a ' +
   `${actionTypes.CURRENCY_PAIR_TRACKING_CONNECTION_ERROR} ` +
   'action followed by a ' +
