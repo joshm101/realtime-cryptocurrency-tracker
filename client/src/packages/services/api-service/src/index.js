@@ -83,8 +83,6 @@ class ApiService {
    * @param {any} error 
    */
   handleNetworkError(error) {
-    //console.error("ApiService error: ", new Error(...error));
-    //throw new Error(error);
     throw new Error(ErrorEnum.NO_CONNECTION);
   }
 }
