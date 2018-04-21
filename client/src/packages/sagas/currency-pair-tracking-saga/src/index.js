@@ -23,7 +23,8 @@ import connectionErrorHandler
   from './socket-event-handlers/connection-error-handler';
 import connectionDisconnectHandler
   from './socket-event-handlers/connection-disconnect-handler';
-import { NO_CONNECTION_PAIRS_SPECIFIED } from './misc-errors';
+import AppErrors from 'app-errors';
+import ErrorEnum from 'error-enum';
 
 const socketConnectionService = new CryptoCompareSocketConnectionService();
 const currencyPairService = new CurrencyPairService();
@@ -75,7 +76,7 @@ function* openCurrencyPairTrackingConnectionHandler(action) {
   try {
     const { connectionPairs } = action;
     if (!connectionPairs || (connectionPairs && !connectionPairs.length)) {
-      throw new Error(NO_CONNECTION_PAIRS_SPECIFIED);
+      throw new Error(ErrorEnum.NO_CURRENCY_PAIRS_SPECIFIED);
     }
     const connectionChannel = createCurrencyPairTrackingEventChannel(
       connectionPairs
@@ -118,26 +119,44 @@ function* openCurrencyPairTrackingConnectionHandler(action) {
       }
     }
   } catch (e) {
-    console.error(e);
+    // Get connection pairs for this failed connection, if any
+    const { connectionPairs } = action;
 
-    if (e.message !== NO_CONNECTION_PAIRS_SPECIFIED) {
-      // catches any errors that are not considered "known errors," or
-      // where "known errors" are:
-      // open connection error, open connection timeout error, 
-      // general connection error, connection disconnect error,
-      // no connection pairs specified error,
-      const { connectionPairs } = action;
-      yield put(
-        actions.currencyPairTrackingConnectionUnknownError(
-          connectionPairs, e
-        )
-      );
+    // thrown errors should have a string numerical value
+    // as their message. Parse this value to interpret the
+    // error below.
+    const errorCode = parseInt(e.message);
+    if (errorCode) {
+      switch (errorCode) {
+        case ErrorEnum.NO_CONNECTION:
+          yield put(
+            actions.openCurrencyPairTrackingConnectionError(
+              undefined, connectionPairs, errorCode,
+            )
+          );
+          return;
+        case ErrorEnum.NO_CURRENCY_PAIRS_SPECIFIED:
+          yield put(
+            actions.openCurrencyPairTrackingConnectionError(
+              undefined, undefined, errorCode
+            ),
+          );
+          return;
+        default:
+          yield put(
+            actions.currencyPairTrackingConnectionUnknownError(
+              connectionPairs, errorCode,
+            ),
+          );
+          return;
+      }
     }
 
+    // errorCode is not defined, an unknown error occurred.
     yield put(
-      // null connectionId and connectionPair means consuming code
-      // should defer to e.message for error information.
-      actions.openCurrencyPairTrackingConnectionError(null, null, e)
+      actions.currencyPairTrackingConnectionUnknownError(
+        connectionPairs, undefined
+      ),
     );
   }
 }
@@ -150,7 +169,9 @@ function* openCurrencyPairTrackingConnectionHandler(action) {
 function* closeCurrencyPairTrackingConnectionHandler(action) {
   try {
     const { connectionId } = action;
+    console.log('connectionId: ', connectionId);
     const { connectionChannel } = socketConnectionService.socketConnections[connectionId];
+    console.log('connectionChannel: ', connectionChannel);
 
     // invoke connectionChannel's close
     // function to close the connection.

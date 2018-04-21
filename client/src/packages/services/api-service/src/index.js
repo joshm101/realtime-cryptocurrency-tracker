@@ -1,3 +1,5 @@
+import ErrorEnum from 'error-enum';
+
 let instance = null;
 
 /**
@@ -68,16 +70,22 @@ class ApiService {
       response.json()
     ).catch(error => 
       // Some sort of network request error occurred.
-      this.handleError(error)
+      // The fetch spec defines this Promise rejection
+      // as network-related (no connection,
+      // DNS lookup failure, or other network
+      // connectivity error)
+      this.handleNetworkError(error)
     )
   }
 
   /**
-   * Network request error handler
+   * Fetch request rejection error handler
    * @param {any} error 
    */
-  handleError(error) {
-    console.error("ApiService error: ", error);
+  handleNetworkError(error) {
+    //console.error("ApiService error: ", new Error(...error));
+    //throw new Error(error);
+    throw new Error(ErrorEnum.NO_CONNECTION);
   }
 }
 

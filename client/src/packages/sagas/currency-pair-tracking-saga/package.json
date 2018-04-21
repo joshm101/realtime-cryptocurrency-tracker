@@ -12,7 +12,9 @@
     "currency-pair-actions": "1.0.0",
     "cc-socket-connection-service": "1.0.0",
     "currency-pair-service": "1.0.0",
-    "ccc-streamer-utilities": "1.0.0"
+    "ccc-streamer-utilities": "1.0.0",
+    "app-errors": "1.0.0",
+    "error-enum": "1.0.0"
   },
   "author": "",
   "license": "ISC"
