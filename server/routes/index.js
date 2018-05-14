@@ -1,6 +1,9 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
+const express = require('express');
+const router = express.Router();
+const path = require('path');
+
+const api = require('./api');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,5 +16,8 @@ router.get('/', function(req, res, next) {
     )
   );
 });
+
+// All API requests are handled by api router module
+router.use('/api', api)
 
 module.exports = router;
