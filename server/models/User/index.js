@@ -12,12 +12,19 @@ const schema = new mongoose.Schema({
 })
 
 /**
+ * Instance methods do NOT have access to "this" context as
+ * ES6 arrow functions, so ES5 syntax is used instead.
+ * See bullet points at the bottom of the linked Mongoose
+ * docs section: https://goo.gl/8ZMo7d
+ */
+
+/**
  * Sets current user instance's (this) stored
  * password hash
  * @param {string} password - Password to hash and set
  * @return {void}
  */
-schema.methods.setPassword = (password) => {
+schema.methods.setPassword = function(password) {
   this.salt = crypto.randomBytes(16).toString('hex')
   this.hash = crypto.pbkdf2Sync(
     password,
@@ -36,22 +43,22 @@ schema.methods.setPassword = (password) => {
  * @return {boolean} - True if hash of password matches,
  * false otherwise
  */
-schema.methods.validPassword = password => (
-  crypto.pbkdf2Sync(
+schema.methods.validPassword = function(password) {
+  return crypto.pbkdf2Sync(
     password,
     this.salt,
     1000,
     64,
     'sha512'
   ).toString('hex') === this.hash
-)
+}
 
 /**
  * Generates a JWT using the current' user instance's
  * (this) information.
  * @return {void}
  */
-schema.methods.generateJwt = () => {
+schema.methods.generateJwt = function() {
   // expiration date is 3 hours from now
   const expiry = moment().add(3, 'hours').toDate()
   return jwt.sign({
