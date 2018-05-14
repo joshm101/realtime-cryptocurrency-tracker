@@ -169,9 +169,7 @@ function* openCurrencyPairTrackingConnectionHandler(action) {
 function* closeCurrencyPairTrackingConnectionHandler(action) {
   try {
     const { connectionId } = action;
-    console.log('connectionId: ', connectionId);
     const { connectionChannel } = socketConnectionService.socketConnections[connectionId];
-    console.log('connectionChannel: ', connectionChannel);
 
     // invoke connectionChannel's close
     // function to close the connection.
