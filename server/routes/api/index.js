@@ -1,7 +1,7 @@
 const express = require('express')
-const api = express.Router();
+const api = express.Router()
 
-const users = require('./users');
+const users = require('./users')
 
 api.get('/', (req, res, next) => {
   res.send('API')
@@ -9,4 +9,4 @@ api.get('/', (req, res, next) => {
 
 api.use('/users', users)
 
-module.exports = api;
+module.exports = api
