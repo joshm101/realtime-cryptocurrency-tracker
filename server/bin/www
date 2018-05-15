@@ -8,9 +8,12 @@ const app = require('../app')
 const debug = require('debug')('server:server')
 const http = require('http')
 const mongoose = require('mongoose')
+const config = require('config')
+
 const MONGODB_CONNECTION_URL = (
-  process.env.RCT_MONGODB_CONNECTION_URL ||
-  'mongodb://localhost/realtime-crypto-tracker'
+  process.env.RCT_MONGODB_CONNECTION_URL_BASE
+    ? process.env.RCT_MONGODB_CONNECTION_URL_BASE + `/${config.RCT_MONGODB_CONNECTION_PATH}`
+    : `mongodb://localhost/${config.RCT_MONGODB_CONNECTION_PATH}`
 )
 
 /**
@@ -96,3 +99,5 @@ const server = http.createServer(app)
 server.listen(port)
 server.on('error', onError)
 server.on('listening', onListening)
+
+module.exports = server // for testing
