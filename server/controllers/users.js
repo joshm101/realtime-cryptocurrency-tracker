@@ -16,11 +16,21 @@ const MINIMUM_PASSWORD_LENGTH = 8
  * @return {void}
  */
 const registerUser = (req, res) => {
-  const { email, password } = req.body
+  const { email, password, confirmPassword } = req.body
 
   // Ensure that an email is provided
   if (!email) {
-    res.status(400).send('An email is required.')
+    res.status(400).send({
+      message: 'An email is required.'
+    })
+    return
+  }
+
+  // Ensure that passwords match
+  if (password !== confirmPassword) {
+    res.status(400).send({
+      message: 'Password & password confirmation must match.'
+    })
     return
   }
 
@@ -28,9 +38,9 @@ const registerUser = (req, res) => {
   userExists(email).then((doesExist) => {
     if (doesExist) {
       // Email already taken, respond accordingly
-      res.status(400).send(
-        `The email ${email} is already taken.`
-      )
+      res.status(400).send({
+        message: `The email ${email} is already taken.`
+      })
       return
     }
 
@@ -38,23 +48,27 @@ const registerUser = (req, res) => {
 
     // Ensure email is valid according to regex
     if (!email && !emailRegex.test(email)) {
-      res.status(400).send('A valid email is required.')
+      res.status(400).send({
+        message: 'A valid email is required.'
+      })
       return
     }
 
     // Ensure that a password has been provided (used mainly
     // to provide a more specific error message)
     if (!password) {
-      res.status(400).send('A valid password is required.')
+      res.status(400).send({
+        message: 'A valid password is required.'
+      })
       return
     }
 
     // Ensure that the provided password is required length
     if (password.length < MINIMUM_PASSWORD_LENGTH) {
-      res.status(400).send(
+      res.status(400).send({ message:
         `Your password must be at least ${MINIMUM_PASSWORD_LENGTH} ` +
         `characters long.`
-      )
+      })
       return
     }
 
@@ -66,9 +80,9 @@ const registerUser = (req, res) => {
     user.save((error, user) => {
       if (error) {
       // Some DB error occurred while writing the user data.
-        res.status(500).send(
-          'An unknown error occurred while creating the user.'
-        )
+        res.status(500).send({
+          message: 'An unknown error occurred while creating the user.'
+        })
         return
       }
 
@@ -79,9 +93,9 @@ const registerUser = (req, res) => {
       })
     })
   }).catch(() => {
-    res.status(500).send(
-      'An unknown error occured while creating the user.'
-    )
+    res.status(500).send({
+      message: 'An unknown error occured while creating the user.'
+    })
   })
 }
 
