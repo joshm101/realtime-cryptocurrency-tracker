@@ -9,7 +9,7 @@ const server = require('../../bin/www')
 chai.use(chaiHttp)
 const expect = chai.expect
 
-describe('users', () => {
+describe('user registration', () => {
   beforeEach((done) => {
     User.remove({}, () => {
       done()
@@ -39,6 +39,55 @@ describe('users', () => {
         email: 'test@test.com',
         password: 'abc1234567',
         confirmPassword: 'abc1234568'
+      })
+      .end((_, res) => {
+        expect(res).to.have.status(400)
+        expect(res.body).to.be.a('object')
+        expect(res.body).to.have.property('message')
+        expect(res.body.message).to.be.a('string')
+        done()
+      })
+  })
+
+  it('should fail when a password is not provided', (done) => {
+    chai.request(server)
+      .post('/api/users')
+      .send({
+        email: 'test@test.com'
+      })
+      .end((_, res) => {
+        expect(res).to.have.status(400)
+        expect(res.body).to.be.a('object')
+        expect(res.body).to.have.property('message')
+        expect(res.body.message).to.be.a('string')
+        done()
+      })
+  })
+
+  it('should fail when a password does not meet length requirements', (done) => {
+    chai.request(server)
+      .post('/api/users')
+      .send({
+        email: 'test@test.com',
+        password: 'abc123',
+        confirmPassword: 'abc123'
+      })
+      .end((_, res) => {
+        expect(res).to.have.status(400)
+        expect(res.body).to.be.a('object')
+        expect(res.body).to.have.property('message')
+        expect(res.body.message).to.be.a('string')
+        done()
+      })
+  })
+
+  it('should fail when a malformed email is provided', (done) => {
+    chai.request(server)
+      .post('/api/users')
+      .send({
+        email: 'test',
+        password: 'abc1234567',
+        confirmPassword: 'abc123456'
       })
       .end((_, res) => {
         expect(res).to.have.status(400)
