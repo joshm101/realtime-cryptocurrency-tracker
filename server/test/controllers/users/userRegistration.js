@@ -3,13 +3,13 @@ process.env.NODE_ENV = 'test'
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 
-const User = require('../../models/User')
-const server = require('../../bin/www')
+const User = require('../../../models/User')
+const server = require('../../../bin/www')
 
 chai.use(chaiHttp)
 const expect = chai.expect
 
-describe('user registration', () => {
+describe('User registration', () => {
   beforeEach((done) => {
     User.remove({}, () => {
       done()
@@ -18,7 +18,7 @@ describe('user registration', () => {
 
   it('should register a user', (done) => {
     chai.request(server)
-      .post('/api/users')
+      .post('/api/users/register')
       .send({
         email: 'test@test.com',
         password: 'abc123456789',
@@ -34,7 +34,7 @@ describe('user registration', () => {
 
   it('should fail when passwords do not match', (done) => {
     chai.request(server)
-      .post('/api/users')
+      .post('/api/users/register')
       .send({
         email: 'test@test.com',
         password: 'abc1234567',
@@ -51,7 +51,7 @@ describe('user registration', () => {
 
   it('should fail when a password is not provided', (done) => {
     chai.request(server)
-      .post('/api/users')
+      .post('/api/users/register')
       .send({
         email: 'test@test.com'
       })
@@ -66,7 +66,7 @@ describe('user registration', () => {
 
   it('should fail when a password does not meet length requirements', (done) => {
     chai.request(server)
-      .post('/api/users')
+      .post('/api/users/register')
       .send({
         email: 'test@test.com',
         password: 'abc123',
@@ -83,7 +83,7 @@ describe('user registration', () => {
 
   it('should fail when a malformed email is provided', (done) => {
     chai.request(server)
-      .post('/api/users')
+      .post('/api/users/register')
       .send({
         email: 'test',
         password: 'abc1234567',

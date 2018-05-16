@@ -8,6 +8,7 @@ users.get('/', (req, res, next) => {
   res.send('respond with a resource')
 })
 
-users.post('/', usersController.registerUser)
+users.post('/register', usersController.registerUser)
+users.post('/login', usersController.login)
 
 module.exports = users

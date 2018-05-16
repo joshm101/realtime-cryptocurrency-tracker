@@ -1,3 +1,5 @@
+const passport = require('passport')
+
 const User = require('../models/User')
 
 /**
@@ -114,4 +116,34 @@ const userExists = (email) => {
   ).then(user => !!user)
 }
 
+/**
+ * Login a user via passport.authenticate method
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ * @return {void}
+ */
+const login = (req, res) => {
+  passport.authenticate('local', (error, user, info) => {
+    let token
+
+    // Passport throws an error
+    if (error) {
+      res.status(500).json(error)
+      return
+    }
+
+    // User is found
+    if (user) {
+      token = user.generateJwt()
+      res.status(200).json({
+        token
+      })
+    } else {
+      // User is not found
+      res.status(401).json(info)
+    }
+  })(req, res)
+}
+
 module.exports.registerUser = registerUser
+module.exports.login = login
