@@ -31,7 +31,6 @@ describe('User retrieval', () => {
         const { token } = res.body
         const { _id } = jwtDecode(token)
         id = _id
-        console.log('token: ', token)
         return chai.request(server)
           .get(`/api/users/${_id}`)
           .set('Authorization', `Bearer ${token}`)
