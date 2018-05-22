@@ -145,5 +145,41 @@ const login = (req, res) => {
   })(req, res)
 }
 
+/**
+ * Retrieves a user whose ID matches the
+ * provided ID
+ * @param {object} req - Express request object
+ * @param {object} res - Express response object
+ */
+const getUserById = (req, res) => {
+  if (!req.params.id) {
+    // Bad request to not provide an ID, this request
+    // should not be repeated without modification
+    res.status(400).send({
+      message: 'No ID was specified.'
+    })
+  }
+
+  User.findById(req.params.id).then(user => {
+    if (user) {
+      // User found, return it in response
+      res.status(200).json({
+        user
+      })
+      return
+    }
+
+    res.status(404).send({
+      message: 'No user was found with the provided ID.'
+    })
+  }).catch(error => {
+    const { message } = error
+    res.status(500).send({
+      message
+    })
+  })
+}
+
 module.exports.registerUser = registerUser
 module.exports.login = login
+module.exports.getUserById = getUserById
