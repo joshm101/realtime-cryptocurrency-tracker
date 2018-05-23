@@ -1,4 +1,8 @@
-// Referenced https://goo.gl/LMVVLA
+/**
+ * Referenced https://goo.gl/LMVVLA
+ * This module implements the LocalStrategy passport
+ * authentication mechanism.
+ */
 
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
