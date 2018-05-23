@@ -5,6 +5,7 @@ const chaiHttp = require('chai-http')
 
 const User = require('../../../models/User')
 const server = require('../../../bin/www')
+const createUser = require('./utils/createUser')
 
 chai.use(chaiHttp)
 const expect = chai.expect
@@ -17,27 +18,19 @@ describe('User login', () => {
   })
 
   it('should log a user in', (done) => {
-    chai.request(server)
-      .post('/api/users/register')
-      .send({
-        email: 'test@test.com',
-        password: 'password',
-        confirmPassword: 'password'
-      })
-      .then(res =>
-        chai.request(server)
-          .post('/api/users/login')
-          .send({
-            'email': 'test@test.com',
-            password: 'password'
-          })
-      )
-      .then((res) => {
-        expect(res).to.have.status(200)
-        expect(res.body).to.be.a('object')
-        expect(res.body).to.have.property('token')
-        done()
-      })
+    createUser().then(res =>
+      chai.request(server)
+        .post('/api/users/login')
+        .send({
+          'email': 'test@test.com',
+          password: 'password'
+        })
+    ).then((res) => {
+      expect(res).to.have.status(200)
+      expect(res.body).to.be.a('object')
+      expect(res.body).to.have.property('token')
+      done()
+    })
   })
 
   it('should throw an error when the user does not exist', (done) => {
