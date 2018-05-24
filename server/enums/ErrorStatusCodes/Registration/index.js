@@ -1,0 +1,9 @@
+module.exports = Object.freeze({
+  PASSWORDS_DONT_MATCH: 1,
+  NO_PASSWORD: 2,
+  BAD_PASSWORD: 3,
+  BAD_EMAIL: 4,
+  NO_EMAIL: 5,
+  EMAIL_TAKEN: 6,
+  INTERNAL_ERROR: 7
+})

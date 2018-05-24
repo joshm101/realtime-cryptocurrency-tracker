@@ -1,6 +1,7 @@
 const passport = require('passport')
 
 const User = require('../models/User')
+const ERROR_CODES = require('../enums/ErrorStatusCodes')
 
 /**
  * Very simple email regex as email validation
@@ -23,7 +24,8 @@ const registerUser = (req, res) => {
   // Ensure that an email is provided
   if (!email) {
     res.status(400).send({
-      message: 'An email is required.'
+      message: 'An email is required.',
+      errorCode: ERROR_CODES.USER_REGISTRATION.NO_EMAIL
     })
     return
   }
@@ -31,7 +33,17 @@ const registerUser = (req, res) => {
   // Ensure that passwords match
   if (password !== confirmPassword) {
     res.status(400).send({
-      message: 'Password & password confirmation must match.'
+      message: 'Password & password confirmation must match.',
+      errorCode: ERROR_CODES.USER_REGISTRATION.PASSWORDS_DONT_MATCH
+    })
+    return
+  }
+
+  // Ensure email is valid according to regex
+  if (!emailRegex.test(email)) {
+    res.status(400).send({
+      message: 'A valid email is required.',
+      errorCode: ERROR_CODES.USER_REGISTRATION.BAD_EMAIL
     })
     return
   }
@@ -41,35 +53,31 @@ const registerUser = (req, res) => {
     if (doesExist) {
       // Email already taken, respond accordingly
       res.status(400).send({
-        message: `The email ${email} is already taken.`
+        message: `The email ${email} is already taken.`,
+        errorCode: ERROR_CODES.USER_REGISTRATION.EMAIL_TAKEN
       })
       return
     }
 
     /* User does not already exist, continue registration process */
 
-    // Ensure email is valid according to regex
-    if (!email && !emailRegex.test(email)) {
-      res.status(400).send({
-        message: 'A valid email is required.'
-      })
-      return
-    }
-
     // Ensure that a password has been provided (used mainly
     // to provide a more specific error message)
     if (!password) {
       res.status(400).send({
-        message: 'A valid password is required.'
+        message: 'A valid password is required.',
+        errorCode: ERROR_CODES.USER_REGISTRATION.NO_PASSWORD
       })
       return
     }
 
     // Ensure that the provided password is required length
     if (password.length < MINIMUM_PASSWORD_LENGTH) {
-      res.status(400).send({ message:
+      res.status(400).send({
+        message:
         `Your password must be at least ${MINIMUM_PASSWORD_LENGTH} ` +
-        `characters long.`
+        `characters long.`,
+        errorCode: ERROR_CODES.USER_REGISTRATION.BAD_PASSWORD
       })
       return
     }
@@ -83,7 +91,8 @@ const registerUser = (req, res) => {
       if (error) {
       // Some DB error occurred while writing the user data.
         res.status(500).send({
-          message: 'An unknown error occurred while creating the user.'
+          message: 'An unknown error occurred while creating the user.',
+          errorCode: ERROR_CODES.USER_REGISTRATION.INTERNAL_ERROR
         })
         return
       }
@@ -96,7 +105,8 @@ const registerUser = (req, res) => {
     })
   }).catch(() => {
     res.status(500).send({
-      message: 'An unknown error occured while creating the user.'
+      message: 'An unknown error occured while creating the user.',
+      errorCode: ERROR_CODES.USER_REGISTRATION.INTERNAL_ERROR
     })
   })
 }
@@ -140,7 +150,10 @@ const login = (req, res) => {
       })
     } else {
       // User is not found
-      res.status(401).json(info)
+      res.status(401).send({
+        ...info,
+        errorCode: ERROR_CODES.USER_LOGIN.BAD_CREDENTIALS
+      })
     }
   })(req, res)
 }

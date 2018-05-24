@@ -6,6 +6,7 @@ const chaiHttp = require('chai-http')
 const User = require('../../../models/User')
 const server = require('../../../bin/www')
 const createUser = require('./utils/createUser')
+const ERROR_CODES = require('../../../enums/ErrorStatusCodes')
 
 chai.use(chaiHttp)
 const expect = chai.expect
@@ -44,7 +45,31 @@ describe('User login', () => {
         expect(res).to.have.status(401)
         expect(res.body).to.have.property('message')
         expect(res.body.message).to.be.a('string')
+        expect(res.body).to.have.property('errorCode')
+        expect(res.body.errorCode).to.equal(
+          ERROR_CODES.USER_LOGIN.BAD_CREDENTIALS
+        )
         done()
       })
+  })
+
+  it('should fail when an invalid password is provided', (done) => {
+    createUser().then(res =>
+      chai.request(server)
+        .post('/api/users/login')
+        .send({
+          email: 'test@test.com',
+          password: 'password123'
+        })
+    ).then((res) => {
+      expect(res).to.have.status(401)
+      expect(res.body).to.have.property('message')
+      expect(res.body.message).to.be.a('string')
+      expect(res.body).to.have.property('errorCode')
+      expect(res.body.errorCode).to.equal(
+        ERROR_CODES.USER_LOGIN.BAD_CREDENTIALS
+      )
+      done()
+    })
   })
 })

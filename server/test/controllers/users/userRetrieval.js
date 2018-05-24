@@ -13,6 +13,11 @@ const expect = chai.expect
 
 let id
 
+/**
+ * Error code enum not used in these tests because each
+ * error is represented by a unique & appropriate HTTP
+ * status code
+ */
 describe('User retrieval', () => {
   beforeEach((done) => {
     User.remove({}, () => {
