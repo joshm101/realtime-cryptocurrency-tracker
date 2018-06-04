@@ -3,8 +3,10 @@ const path = require('path')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const passport = require('passport')
 
 const index = require('./routes/index')
+require('./routes/config/passport')
 const app = express()
 
 // view engine setup
@@ -23,7 +25,7 @@ app.use(
     )
   )
 )
-
+app.use(passport.initialize())
 app.use('/', index)
 
 // catch 404 and forward to error handler
