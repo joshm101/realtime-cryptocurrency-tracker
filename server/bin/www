@@ -13,7 +13,7 @@ const config = require('config')
 const MONGODB_CONNECTION_URL = (
   process.env.RCT_MONGODB_CONNECTION_URL_BASE
     ? process.env.RCT_MONGODB_CONNECTION_URL_BASE + `/${config.RCT_MONGODB_CONNECTION_PATH}`
-    : `mongodb://localhost/${config.RCT_MONGODB_CONNECTION_PATH}`
+    : `mongodb://mongo/${config.RCT_MONGODB_CONNECTION_PATH}`
 )
 
 /**
