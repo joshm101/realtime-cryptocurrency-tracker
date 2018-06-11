@@ -6,6 +6,7 @@ The primary purpose of this API is to provide basic user management in addition 
 * [Docker](https://www.docker.com/)
 
 ## To run
+Clone this repository and (from the project's root directory) navigate to the `server` directory.
 * For development:
   - Run the command `docker-compose up --build` in this README's directory
     - The result of this command is a running API container that is connected to a running MongoDB container. Ready to go on the port specified by port mapping in `docker-compose.yml`.
