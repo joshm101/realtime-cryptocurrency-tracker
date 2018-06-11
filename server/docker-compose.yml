@@ -6,7 +6,7 @@ services:
       - /app
     ports:
       - "3001:3000"
-    links:
+    depends_on:
       - mongo
   mongo:
     image: mongo
