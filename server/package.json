@@ -7,7 +7,7 @@
     "docker-start": "docker-compose up --build",
     "docker-test": "docker-compose -f docker-compose.test.yml up --build",
     "mocha": "mocha",
-    "test": "mocha --recursive --exit"
+    "test": "npm run mocha -- --recursive --exit"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
