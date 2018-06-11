@@ -10,12 +10,12 @@ The primary purpose of this API is to provide basic user management in addition 
   - Run the command `docker-compose up --build` in this README's directory
     - The result of this command is a running API container that is connected to a running MongoDB container. Ready to go on the port specified by port mapping in `docker-compose.yml`.
     - This command uses the `docker-compose.yml` file to compose the MongoDB docker container and the application container. The `docker-compose.yml` file uses the `Dockerfile` file by default when creating the application container.
-    - If `npm` is installed on the host machine, the command can be simplified by running an `npm` script in this directory's `package.json` file: `npm run docker-start`
+    - If `npm` is installed on the host machine, the command can be simplified by running an `npm` script from this directory's `package.json` file: `npm run docker-start`
 * For testing:
   - Run the command `docker-compose -f docker-compose.test.yml up --build` in this README's directory
     - The result of this command is a running API testing container that is connected to a running MongoDB container. Ready to go on the port specified by port mapping in `docker-compose.test.yml`. *Tests run automatically.*
     - This command uses the `docker-compose.test.yml` file to compose the MongoDB docker container and the application container. The separate `docker-compose.test.yml` file is used to specify usage of the `Dockerfile.test` file when creating the application container. The `Dockerfile.test` file ensures that the `npm` script `test` is run to execute the application's tests.
-    - If `npm` is installed on the host machine, the command can be simplified by runnning an `npm` script in the directory's `package.json` file: `npm run docker-test`
+    - If `npm` is installed on the host machine, the command can be simplified by runnning an `npm` script from this directory's `package.json` file: `npm run docker-test`
 * TODO: For production
 
 ## Directory structure
